@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj": {}
+    "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj": {
+    "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
+        "projectUniqueName": "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
         "projectName": "ApiPeliculasEFCore",
-        "projectPath": "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
+        "projectPath": "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
         "packagesPath": "C:\\Users\\crist\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\obj\\",
+        "outputPath": "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

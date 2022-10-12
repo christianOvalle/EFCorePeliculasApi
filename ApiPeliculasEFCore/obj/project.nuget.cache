@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZAHlrCnGxdEnaFIU1Jh+TFi9uaeFWSaXrExsHxbBiM/59N2t0czJA5y0GRp0wYm85LICya1VgeSusQ3k8ANOMQ==",
+  "dgSpecHash": "5FzbliLeEabr1tVIGzh2oYiigJwiCucgCW/vg2DaehGfTH7kvkXOYiHv2D1Lq2AH+Uda3BOrIXWwQ1zgG5gLQA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\crist\\Documents\\GitHub\\ApiPeliculasEFCore\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
+  "projectFilePath": "C:\\Users\\crist\\Documents\\GitHub\\EFCorePeliculasApi\\ApiPeliculasEFCore\\ApiPeliculasEFCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\crist\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\crist\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
