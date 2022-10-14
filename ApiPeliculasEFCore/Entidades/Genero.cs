@@ -12,6 +12,8 @@ namespace ApiPeliculasEFCore.Entidades
         //[MaxLength(100)]
         //[Required]
         //[Column("NombreGenero")]
+        
         public string nombre { get; set; }
+        public HashSet<Pelicula> Pelicula { get; set; }
     }
 }

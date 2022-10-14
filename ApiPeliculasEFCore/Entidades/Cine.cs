@@ -3,7 +3,7 @@ using NetTopologySuite.Geometries;
 
 namespace ApiPeliculasEFCore.Entidades
 {
-    public class Cine
+    public class Cine 
     {
         public int Id { get; set; }
         public string nombre { get; set; }
