@@ -3,7 +3,7 @@
     public enum TipoSalaDeCine
     {
         DosDimensiones = 1,
-        TresDimesiones = 2,
+        TresDimensiones = 2,
         CXC = 3
     }
 }

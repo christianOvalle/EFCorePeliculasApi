@@ -6,14 +6,14 @@ namespace ApiPeliculasEFCore.Entidades
     //[Table("TablaGeneos", Schema ="Peliculas")]
     public class Genero
     {
-        //[Key]
+        [Key]
         public int Id { get; set; }
         //[StringLength(100)]
         //[MaxLength(100)]
         //[Required]
         //[Column("NombreGenero")]
         
-        public string nombre { get; set; }
-        public HashSet<Pelicula> Pelicula { get; set; }
+        public string Nombre { get; set; }
+        public HashSet<Pelicula> Peliculas { get; set; }
     }
 }

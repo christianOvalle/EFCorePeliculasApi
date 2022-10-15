@@ -8,8 +8,8 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
         public void Configure(EntityTypeBuilder<Genero> builder)
         {
 
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.nombre).HasMaxLength(100).IsRequired();
+            //builder.HasKey(x => x.Identificador);
+            builder.Property(x => x.Nombre).HasMaxLength(100).IsRequired();
 
         }
     }

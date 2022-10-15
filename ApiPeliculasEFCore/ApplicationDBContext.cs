@@ -1,5 +1,6 @@
 ﻿using ApiPeliculasEFCore.Entidades;
 using ApiPeliculasEFCore.Entidades.Configuraciones;
+using ApiPeliculasEFCore.Entidades.Seeding;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -22,6 +23,7 @@ namespace ApiPeliculasEFCore
             base.OnModelCreating(modelBuilder);
 
            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            SeedingConsulta.Seed(modelBuilder);
 
         }
 

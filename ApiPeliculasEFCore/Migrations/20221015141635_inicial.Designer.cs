@@ -13,8 +13,8 @@ using NetTopologySuite.Geometries;
 namespace ApiPeliculasEFCore.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20221014155307_incial")]
-    partial class incial
+    [Migration("20221015141635_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace ApiPeliculasEFCore.Migrations
                     b.Property<DateTime?>("FechaNacimiento")
                         .HasColumnType("date");
 
-                    b.Property<string>("nombre")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
@@ -57,12 +57,12 @@ namespace ApiPeliculasEFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("nombre")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<Point>("ubicacion")
+                    b.Property<Point>("Ubicacion")
                         .HasColumnType("geography");
 
                     b.HasKey("Id");
@@ -107,7 +107,7 @@ namespace ApiPeliculasEFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("nombre")
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -200,12 +200,12 @@ namespace ApiPeliculasEFCore.Migrations
                     b.Property<int>("GeneroId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PeliculaId")
+                    b.Property<int>("PeliculasId")
                         .HasColumnType("int");
 
-                    b.HasKey("GeneroId", "PeliculaId");
+                    b.HasKey("GeneroId", "PeliculasId");
 
-                    b.HasIndex("PeliculaId");
+                    b.HasIndex("PeliculasId");
 
                     b.ToTable("GeneroPelicula");
                 });
@@ -274,7 +274,7 @@ namespace ApiPeliculasEFCore.Migrations
 
                     b.HasOne("ApiPeliculasEFCore.Entidades.Pelicula", null)
                         .WithMany()
-                        .HasForeignKey("PeliculaId")
+                        .HasForeignKey("PeliculasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -6,7 +6,7 @@ using NetTopologySuite.Geometries;
 
 namespace ApiPeliculasEFCore.Migrations
 {
-    public partial class incial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace ApiPeliculasEFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Biografia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaNacimiento = table.Column<DateTime>(type: "date", nullable: true)
                 },
@@ -31,8 +31,8 @@ namespace ApiPeliculasEFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ubicacion = table.Column<Point>(type: "geography", nullable: true)
+                    Nombre = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Ubicacion = table.Column<Point>(type: "geography", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace ApiPeliculasEFCore.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,11 +116,11 @@ namespace ApiPeliculasEFCore.Migrations
                 columns: table => new
                 {
                     GeneroId = table.Column<int>(type: "int", nullable: false),
-                    PeliculaId = table.Column<int>(type: "int", nullable: false)
+                    PeliculasId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GeneroPelicula", x => new { x.GeneroId, x.PeliculaId });
+                    table.PrimaryKey("PK_GeneroPelicula", x => new { x.GeneroId, x.PeliculasId });
                     table.ForeignKey(
                         name: "FK_GeneroPelicula_Generos_GeneroId",
                         column: x => x.GeneroId,
@@ -128,8 +128,8 @@ namespace ApiPeliculasEFCore.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GeneroPelicula_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
+                        name: "FK_GeneroPelicula_Peliculas_PeliculasId",
+                        column: x => x.PeliculasId,
                         principalTable: "Peliculas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -192,9 +192,9 @@ namespace ApiPeliculasEFCore.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_GeneroPelicula_PeliculaId",
+                name: "IX_GeneroPelicula_PeliculasId",
                 table: "GeneroPelicula",
-                column: "PeliculaId");
+                column: "PeliculasId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_peliculasActores_ActorId",
