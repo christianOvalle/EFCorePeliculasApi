@@ -18,11 +18,11 @@ namespace ApiPeliculasEFCore.Controllers
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get()
         {
-            return await context.Generos.OrderBy(x=>x.Nombre).ToListAsync();
+            return await context.Generos.OrderBy(x => x.Nombre).ToListAsync();
         }
 
-        [HttpGet("{int:id}")]
-        public async Task<ActionResult<Genero>>Get(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Genero>> Get(int id)
         {
             var generoPorId = await context.Generos.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -37,9 +37,9 @@ namespace ApiPeliculasEFCore.Controllers
         [HttpGet("primer")]
         public async Task<ActionResult<Genero>> Primer()
         {
-            var genero = await context.Generos.FirstOrDefaultAsync(x=>x.Nombre.StartsWith("c"));
+            var genero = await context.Generos.FirstOrDefaultAsync(x => x.Nombre.StartsWith("c"));
 
-            if(genero is null)
+            if (genero is null)
             {
                 return NotFound();
             }
@@ -54,5 +54,13 @@ namespace ApiPeliculasEFCore.Controllers
             return await context.Generos.Where(x => x.Nombre.Contains(nombre)).ToListAsync();
         }
 
+        [HttpGet("paginacion")]
+        public async Task<ActionResult<IEnumerable<Genero>>>GetPaginacion(int pagina = 1)
+        {
+            var cantidadRegistrosPorPagina = 2;
+            var genero = await context.Generos.Skip((pagina - 1) * cantidadRegistrosPorPagina).Take(cantidadRegistrosPorPagina).ToListAsync();
+            return genero;
+        }
+       
     }
 }

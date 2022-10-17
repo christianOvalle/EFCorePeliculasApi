@@ -126,3 +126,5 @@ C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\obj\Debug\
 C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\obj\Debug\net6.0\ApiPeliculasEFCore.pdb
 C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\obj\Debug\net6.0\ApiPeliculasEFCore.genruntimeconfig.cache
 C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\obj\Debug\net6.0\ref\ApiPeliculasEFCore.dll
+C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\crist\Documents\GitHub\EFCorePeliculasApi\ApiPeliculasEFCore\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
