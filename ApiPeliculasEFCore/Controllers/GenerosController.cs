@@ -34,7 +34,23 @@ namespace ApiPeliculasEFCore.Controllers
             return generoPorId;
         }
 
-        [HttpGet("primer")]
+        [HttpPost]
+        public async Task<ActionResult> Post(Genero genero)
+        {
+            context.Add(genero);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("varios")]
+        public async Task<ActionResult> Post(Genero[] genero)
+        {
+            context.AddRange(genero);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        /*[HttpGet("primer")]
         public async Task<ActionResult<Genero>> Primer()
         {
             var genero = await context.Generos.FirstOrDefaultAsync(x => x.Nombre.StartsWith("c"));
@@ -60,7 +76,7 @@ namespace ApiPeliculasEFCore.Controllers
             var cantidadRegistrosPorPagina = 2;
             var genero = await context.Generos.Skip((pagina - 1) * cantidadRegistrosPorPagina).Take(cantidadRegistrosPorPagina).ToListAsync();
             return genero;
-        }
-       
+        }*/
+
     }
 }

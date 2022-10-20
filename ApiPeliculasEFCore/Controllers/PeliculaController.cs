@@ -82,5 +82,39 @@ namespace ApiPeliculasEFCore.Controllers
 
             return peliculaDTOs;
         }
+
+        [HttpGet("filtrar")]
+        public async Task<ActionResult<List<PeliculaDTOs>>> Filtrar([FromQuery] PeliculasFiltrosDTO peliculasFiltrosDTO)
+        {
+            var peliculaQueryable = context.Peliculas.AsQueryable();
+
+            if (!string.IsNullOrEmpty(peliculasFiltrosDTO.Titulo))
+            {
+                peliculaQueryable = peliculaQueryable.Where(x => x.Titulo.Contains(peliculasFiltrosDTO.Titulo));
+            }
+
+            if (peliculasFiltrosDTO.EnCartelera)
+            {
+               peliculaQueryable = peliculaQueryable.Where(x => x.EnCartelera);
+            }
+
+            if (peliculasFiltrosDTO.ProximosExtrenos)
+            {
+                var Hoy = DateTime.Today;
+                peliculaQueryable = peliculaQueryable.Where(x => x.FechaEstreno > Hoy);
+
+            }
+            
+            if(peliculasFiltrosDTO.GeneroId != 0)
+            {
+                peliculaQueryable = peliculaQueryable.Where(x => x.Genero.Select(x => x.Id).Contains(peliculasFiltrosDTO.GeneroId));
+            }
+
+            var peliculaConGeneros =await peliculaQueryable.Include(x => x.Genero).ToListAsync();
+
+            return mapper.Map<List<PeliculaDTOs>>(peliculaConGeneros);
+
+             
+        }
     }
 }
