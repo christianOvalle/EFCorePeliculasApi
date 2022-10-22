@@ -23,7 +23,7 @@ namespace ApiPeliculasEFCore
             base.OnModelCreating(modelBuilder);
 
            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            SeedingConsulta.Seed(modelBuilder);
+           SeedingConsulta.Seed(modelBuilder);
 
         }
 

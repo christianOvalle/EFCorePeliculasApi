@@ -8,6 +8,8 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
         public void Configure(EntityTypeBuilder<Actor> builder)
         {
             builder.Property(x => x.Nombre).HasMaxLength(150).IsRequired();
+
+            builder.Property(x => x.Nombre).HasField("_nombre");
         }
     }
 }

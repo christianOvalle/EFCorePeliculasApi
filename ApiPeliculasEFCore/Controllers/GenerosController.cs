@@ -50,6 +50,36 @@ namespace ApiPeliculasEFCore.Controllers
             return Ok();
         }
 
+        [HttpDelete("borradoSuave/{id:int}")]
+        public async Task<ActionResult>DeleteSuave(int id)
+        {
+            var genero = await context.Generos.AsTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            if(genero is null)
+            {
+                return NotFound();
+            }
+
+            genero.EstaBorrado = true;
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("restaurar/{id:int}")]
+        public async Task<ActionResult> Restaurar(int id)
+        {
+            var genero = await context.Generos.AsTracking().IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Id == id);
+
+            if (genero is null)
+            {
+                return NotFound();
+            }
+
+            genero.EstaBorrado = false;
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
         /*[HttpGet("primer")]
         public async Task<ActionResult<Genero>> Primer()
         {
