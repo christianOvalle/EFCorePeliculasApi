@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiPeliculasEFCore.Entidades
 {
     //[Table("TablaGeneos", Schema ="Peliculas")]
+    //[Index(nameof(Nombre), IsUnique = true)]
     public class Genero
     {
         [Key]

@@ -13,6 +13,8 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
 
             builder.HasQueryFilter(x => !x.EstaBorrado);
 
+            builder.HasIndex(x=>x.Nombre).IsUnique().HasFilter("EstaBorrado = 'false'");
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ApiPeliculasEFCore.DtOs;
 using ApiPeliculasEFCore.Entidades;
+using ApiPeliculasEFCore.Entidades.SinLLave;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,12 @@ namespace ApiPeliculasEFCore.Controllers
         public async Task<IEnumerable<CineDTOs>> Get()
         {
             return await context.Cines.ProjectTo<CineDTOs>(mapper.ConfigurationProvider).ToListAsync();
+        }
+
+        [HttpGet("SinUbicacion")]
+        public async Task<IEnumerable<CineSinUbicacion>> GetCineSinUbicacion()
+        {
+            return await context.CineSinUbicacion.ToListAsync();
         }
 
         [HttpGet("cercanos")]

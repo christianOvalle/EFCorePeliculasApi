@@ -1,5 +1,6 @@
 ﻿using ApiPeliculasEFCore.DtOs;
 using ApiPeliculasEFCore.Entidades;
+using ApiPeliculasEFCore.Migrations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,12 @@ namespace ApiPeliculasEFCore.Controllers
             peliculaDTO.Cines = peliculaDTO.Cines.DistinctBy(x => x.Id).ToList();
 
             return peliculaDTO;
+        }
+
+        [HttpGet("PeliculaConConteos")]
+        public async Task<ActionResult<IEnumerable<PeliculasConConteos>>> GetPeliculaConConteos()
+        {
+            return await context.Set<PeliculasConConteos>().ToListAsync();
         }
 
         [HttpGet("cargaselectiva/{id:int}")]

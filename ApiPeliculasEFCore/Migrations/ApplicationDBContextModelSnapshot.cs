@@ -180,16 +180,16 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 4,
-                            FechaFin = new DateTime(2022, 10, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 15m
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
-                            FechaFin = new DateTime(2022, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 10m
                         });
                 });
@@ -211,6 +211,10 @@ namespace ApiPeliculasEFCore.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nombre")
+                        .IsUnique()
+                        .HasFilter("EstaBorrado = 'false'");
 
                     b.ToTable("Generos");
 
@@ -402,14 +406,19 @@ namespace ApiPeliculasEFCore.Migrations
                     b.Property<int>("CineId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Moneda")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Precio")
                         .HasPrecision(9, 2)
                         .HasColumnType("decimal(9,2)");
 
-                    b.Property<int>("TipoSalaDeCine")
+                    b.Property<string>("TipoSalaDeCine")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("DosDimensiones");
 
                     b.HasKey("Id");
 
@@ -422,58 +431,79 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 5,
                             CineId = 3,
+                            Moneda = "",
                             Precio = 250m,
-                            TipoSalaDeCine = 1
+                            TipoSalaDeCine = "DosDimensiones"
                         },
                         new
                         {
                             Id = 6,
                             CineId = 3,
+                            Moneda = "",
                             Precio = 330m,
-                            TipoSalaDeCine = 2
+                            TipoSalaDeCine = "TresDimensiones"
                         },
                         new
                         {
                             Id = 7,
                             CineId = 3,
+                            Moneda = "",
                             Precio = 450m,
-                            TipoSalaDeCine = 3
+                            TipoSalaDeCine = "CXC"
                         },
                         new
                         {
                             Id = 8,
                             CineId = 4,
+                            Moneda = "",
                             Precio = 250m,
-                            TipoSalaDeCine = 1
+                            TipoSalaDeCine = "DosDimensiones"
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
+                            Moneda = "",
                             Precio = 220m,
-                            TipoSalaDeCine = 1
+                            TipoSalaDeCine = "DosDimensiones"
                         },
                         new
                         {
                             Id = 2,
                             CineId = 1,
+                            Moneda = "",
                             Precio = 320m,
-                            TipoSalaDeCine = 2
+                            TipoSalaDeCine = "TresDimensiones"
                         },
                         new
                         {
                             Id = 3,
                             CineId = 2,
+                            Moneda = "",
                             Precio = 200m,
-                            TipoSalaDeCine = 1
+                            TipoSalaDeCine = "DosDimensiones"
                         },
                         new
                         {
                             Id = 4,
                             CineId = 2,
+                            Moneda = "",
                             Precio = 290m,
-                            TipoSalaDeCine = 2
+                            TipoSalaDeCine = "TresDimensiones"
                         });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.SinLLave.CineSinUbicacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView(null);
+
+                    b.ToSqlQuery("Select Id, Nombre FROM Cines");
                 });
 
             modelBuilder.Entity("GeneroPelicula", b =>
