@@ -36,7 +36,7 @@ namespace ApiPeliculasEFCore.Controllers
         }
 
         [HttpGet("cercanos")]
-        public async Task<ActionResult>Get(double latitud, double longitud)
+        public async Task<ActionResult> Get(double latitud, double longitud)
         {
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
@@ -46,7 +46,7 @@ namespace ApiPeliculasEFCore.Controllers
 
             var cines = await context.Cines
                 .OrderBy(c => c.Ubicacion.Distance(miUbicacion))
-                .Where(c=>c.Ubicacion.IsWithinDistance(miUbicacion, distanciaMaximaMetros))
+                .Where(c => c.Ubicacion.IsWithinDistance(miUbicacion, distanciaMaximaMetros))
                 .Select(x => new
                 {
                     Nombre = x.Nombre,
@@ -63,9 +63,24 @@ namespace ApiPeliculasEFCore.Controllers
             context.Add(cine);
             await context.SaveChangesAsync();
             return Ok();
+        }
 
+        [HttpDelete]
+        public async Task<ActionResult> Borrar(int id)
+        {
+            var cine = await context.Cines.Include(x=>x.SalaDeCines).Include(x=>x.CineOferta).FirstOrDefaultAsync(x => x.Id == id);
 
+            if (cine == null)
+            {
+                return NotFound();
+            }
 
+            context.RemoveRange(cine);
+            await context.SaveChangesAsync();
+
+            context.Remove(cine);
+            await context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

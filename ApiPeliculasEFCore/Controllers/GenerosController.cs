@@ -18,20 +18,27 @@ namespace ApiPeliculasEFCore.Controllers
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get()
         {
-            return await context.Generos.OrderBy(x => x.Nombre).ToListAsync();
+            return await context.Generos.OrderByDescending(g => EF.Property<DateTime>(g, "FechaCreacion")).ToListAsync();
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Genero>> Get(int id)
         {
-            var generoPorId = await context.Generos.FirstOrDefaultAsync(x => x.Id == id);
+            var generoPorId = await context.Generos.AsTracking().FirstOrDefaultAsync(x => x.Id == id);
 
             if (generoPorId is null)
             {
                 return NotFound();
             }
 
-            return generoPorId;
+            var fechaCreacion = context.Entry(generoPorId).Property<DateTime>("FechaCreacion").CurrentValue;
+
+            return Ok(new
+            {
+                Id = generoPorId.Id,
+                Nombre = generoPorId.Nombre,
+                fechaCreacion
+            });
         }
 
         [HttpPost]

@@ -37,6 +37,11 @@ namespace ApiPeliculasEFCore.Migrations
                     b.Property<DateTime?>("FechaNacimiento")
                         .HasColumnType("date");
 
+                    b.Property<string>("FotoURL")
+                        .HasMaxLength(500)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(500)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -180,16 +185,16 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 4,
-                            FechaFin = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 15m
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
-                            FechaFin = new DateTime(2022, 11, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 10m
                         });
                 });
@@ -204,6 +209,11 @@ namespace ApiPeliculasEFCore.Migrations
 
                     b.Property<bool>("EstaBorrado")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GetDate()");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -248,6 +258,62 @@ namespace ApiPeliculasEFCore.Migrations
                             Id = 5,
                             EstaBorrado = false,
                             Nombre = "Drama"
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Mensaje", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Contenido")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmisorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceptorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmisorId");
+
+                    b.HasIndex("ReceptorId");
+
+                    b.ToTable("Mensajes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Contenido = "Hola, Claudia!",
+                            EmisorId = 1,
+                            ReceptorId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Contenido = "Hola, Felipe, ¿Cómo te va?",
+                            EmisorId = 2,
+                            ReceptorId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Contenido = "Todo bien, ¿Y tú?",
+                            EmisorId = 1,
+                            ReceptorId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Contenido = "Muy bien :)",
+                            EmisorId = 2,
+                            ReceptorId = 1
                         });
                 });
 
@@ -395,6 +461,34 @@ namespace ApiPeliculasEFCore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Persona", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Personas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Felipe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Claudia"
+                        });
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.SalaDeCine", b =>
                 {
                     b.Property<int>("Id")
@@ -504,6 +598,26 @@ namespace ApiPeliculasEFCore.Migrations
                     b.ToView(null);
 
                     b.ToSqlQuery("Select Id, Nombre FROM Cines");
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.SinLLave.PeliculaConConteos", b =>
+                {
+                    b.Property<int>("CantidadActores")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CantidadCines")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CantidadGeneros")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToView("PeliculasConConteos");
                 });
 
             modelBuilder.Entity("GeneroPelicula", b =>
@@ -644,6 +758,25 @@ namespace ApiPeliculasEFCore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Mensaje", b =>
+                {
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Persona", "Emisor")
+                        .WithMany("MensajesEnviados")
+                        .HasForeignKey("EmisorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Persona", "Receptor")
+                        .WithMany("MensajesRecibidos")
+                        .HasForeignKey("ReceptorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Emisor");
+
+                    b.Navigation("Receptor");
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.PeliculaActor", b =>
                 {
                     b.HasOne("ApiPeliculasEFCore.Entidades.Actor", "Actor")
@@ -668,7 +801,7 @@ namespace ApiPeliculasEFCore.Migrations
                     b.HasOne("ApiPeliculasEFCore.Entidades.Cine", "Cine")
                         .WithMany("SalaDeCines")
                         .HasForeignKey("CineId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cine");
@@ -719,6 +852,13 @@ namespace ApiPeliculasEFCore.Migrations
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Pelicula", b =>
                 {
                     b.Navigation("PeliculaActores");
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Persona", b =>
+                {
+                    b.Navigation("MensajesEnviados");
+
+                    b.Navigation("MensajesRecibidos");
                 });
 #pragma warning restore 612, 618
         }

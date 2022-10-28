@@ -26,11 +26,28 @@ namespace ApiPeliculasEFCore
 
            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
            SeedingConsulta.Seed(modelBuilder);
+           SeedingPersonaMensaje.Seed(modelBuilder);
             //modelBuilder.Ignore<Direccion>();
 
+         
             modelBuilder.Entity<CineSinUbicacion>().HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
 
             modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToView("PeliculasConConteos");
+
+            foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var propiedad in tipoEntidad.GetProperties())
+                {
+                    if(propiedad.ClrType == typeof(string) && propiedad.Name.Contains("URL", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        propiedad.SetIsUnicode(false);
+                        propiedad.SetMaxLength(500);
+                    }
+                }
+                
+            }
+            
+          
 
         }
 
@@ -42,6 +59,8 @@ namespace ApiPeliculasEFCore
         public DbSet<SalaDeCine> SalaDeCines { get; set; }
         public DbSet<PeliculaActor> peliculasActores { get; set; } 
         public DbSet<CineSinUbicacion> CineSinUbicacion { get; set; }
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Mensaje> Mensajes { get; set; }
        
     }
 }

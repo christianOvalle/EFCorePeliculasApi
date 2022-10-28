@@ -1,6 +1,6 @@
 ﻿using ApiPeliculasEFCore.DtOs;
 using ApiPeliculasEFCore.Entidades;
-using ApiPeliculasEFCore.Migrations;
+using ApiPeliculasEFCore.Entidades.SinLLave;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,9 +44,9 @@ namespace ApiPeliculasEFCore.Controllers
         }
 
         [HttpGet("PeliculaConConteos")]
-        public async Task<ActionResult<IEnumerable<PeliculasConConteos>>> GetPeliculaConConteos()
+        public async Task<ActionResult<IEnumerable<PeliculaConConteos>>> GetPeliculaConConteos()
         {
-            return await context.Set<PeliculasConConteos>().ToListAsync();
+            return await context.Set<PeliculaConConteos>().ToListAsync();
         }
 
         [HttpGet("cargaselectiva/{id:int}")]
