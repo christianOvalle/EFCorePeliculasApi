@@ -46,7 +46,9 @@ namespace ApiPeliculasEFCore.Entidades
             }
 
         }
-        [NotMapped]
-        public Direccion Direccion { get; set; }
+       
+        public Direccion DireccionHogar { get; set; }
+        public Direccion BillingAddress { get; set; }
+        public string Apellido { get; set; }
     }
 }

@@ -11,5 +11,7 @@ namespace ApiPeliculasEFCore.Entidades
         public Point Ubicacion { get; set; }
         public CineOferta CineOferta { get; set; }
         public HashSet<SalaDeCine> SalaDeCines { get; set; }
+        public CineDetalle CineDetalle { get; set; }
+        public Direccion Direccion { get; set; }
     }
 }

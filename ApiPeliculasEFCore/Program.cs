@@ -1,4 +1,5 @@
 using ApiPeliculasEFCore;
+using ApiPeliculasEFCore.CompiledModels;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -14,12 +15,19 @@ builder.Services.AddDbContext<ApplicationDBContext>(opciones => {
 
          opciones.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), x=>x.UseNetTopologySuite());
          opciones.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+         //opciones.UseModel(ApplicationDBContextModel.Instance);
 }
 );
 
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
+
+/*using (var scope = app.Services.CreateScope())
+{
+    var applicationDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+    applicationDbContext.Database.Migrate();
+}*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

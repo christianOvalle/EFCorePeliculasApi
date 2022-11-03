@@ -31,6 +31,9 @@ namespace ApiPeliculasEFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Apellido")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Biografia")
                         .HasColumnType("nvarchar(max)");
 
@@ -152,6 +155,29 @@ namespace ApiPeliculasEFCore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.CineDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodigoDeEtica")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Historia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Misiones")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Valores")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cines", (string)null);
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.CineOferta", b =>
                 {
                     b.Property<int>("Id")
@@ -185,16 +211,16 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 4,
-                            FechaFin = new DateTime(2022, 11, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 15m
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
-                            FechaFin = new DateTime(2022, 11, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 10m
                         });
                 });
@@ -315,6 +341,31 @@ namespace ApiPeliculasEFCore.Migrations
                             EmisorId = 2,
                             ReceptorId = 1
                         });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Pago", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("FechaTransaccion")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Monto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TipoPago")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pagos");
+
+                    b.HasDiscriminator<int>("TipoPago");
                 });
 
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Pelicula", b =>
@@ -489,6 +540,26 @@ namespace ApiPeliculasEFCore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Precio")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Productos");
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.SalaDeCine", b =>
                 {
                     b.Property<int>("Id")
@@ -499,10 +570,6 @@ namespace ApiPeliculasEFCore.Migrations
 
                     b.Property<int>("CineId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Moneda")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Precio")
                         .HasPrecision(9, 2)
@@ -525,7 +592,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 5,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 250m,
                             TipoSalaDeCine = "DosDimensiones"
                         },
@@ -533,7 +599,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 6,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 330m,
                             TipoSalaDeCine = "TresDimensiones"
                         },
@@ -541,7 +606,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 7,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 450m,
                             TipoSalaDeCine = "CXC"
                         },
@@ -549,7 +613,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 8,
                             CineId = 4,
-                            Moneda = "",
                             Precio = 250m,
                             TipoSalaDeCine = "DosDimensiones"
                         },
@@ -557,7 +620,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 1,
                             CineId = 1,
-                            Moneda = "",
                             Precio = 220m,
                             TipoSalaDeCine = "DosDimensiones"
                         },
@@ -565,7 +627,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 1,
-                            Moneda = "",
                             Precio = 320m,
                             TipoSalaDeCine = "TresDimensiones"
                         },
@@ -573,7 +634,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 3,
                             CineId = 2,
-                            Moneda = "",
                             Precio = 200m,
                             TipoSalaDeCine = "DosDimensiones"
                         },
@@ -581,7 +641,6 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 4,
                             CineId = 2,
-                            Moneda = "",
                             Precio = 290m,
                             TipoSalaDeCine = "TresDimensiones"
                         });
@@ -749,6 +808,226 @@ namespace ApiPeliculasEFCore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Mercancias", b =>
+                {
+                    b.HasBaseType("ApiPeliculasEFCore.Entidades.Producto");
+
+                    b.Property<bool>("DisponibleEnInventario")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EsColeccionable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EsRopa")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Peso")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Volumen")
+                        .HasColumnType("float");
+
+                    b.ToTable("Mercancias", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "T-Shirt One Piece",
+                            Precio = 11m,
+                            DisponibleEnInventario = true,
+                            EsColeccionable = false,
+                            EsRopa = true,
+                            Peso = 1.0,
+                            Volumen = 1.0
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.PagoPaypal", b =>
+                {
+                    b.HasBaseType("ApiPeliculasEFCore.Entidades.Pago");
+
+                    b.Property<string>("CorreoElectronico")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasDiscriminator().HasValue(1);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            FechaTransaccion = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Monto = 157m,
+                            TipoPago = 1,
+                            CorreoElectronico = "Cristian@hotmail.com"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FechaTransaccion = new DateTime(2022, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Monto = 9.99m,
+                            TipoPago = 1,
+                            CorreoElectronico = "claudia@hotmail.com"
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.PagoTarjeta", b =>
+                {
+                    b.HasBaseType("ApiPeliculasEFCore.Entidades.Pago");
+
+                    b.Property<string>("Ultimos4Digitos")
+                        .IsRequired()
+                        .HasColumnType("char(4)");
+
+                    b.HasDiscriminator().HasValue(2);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FechaTransaccion = new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Monto = 500m,
+                            TipoPago = 2,
+                            Ultimos4Digitos = "0123"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FechaTransaccion = new DateTime(2022, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Monto = 120m,
+                            TipoPago = 2,
+                            Ultimos4Digitos = "1234"
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.PeliculaAlquilable", b =>
+                {
+                    b.HasBaseType("ApiPeliculasEFCore.Entidades.Producto");
+
+                    b.Property<int>("PeliculaId")
+                        .HasColumnType("int");
+
+                    b.ToTable("PeliculasAlquilables", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Spider-Man",
+                            Precio = 5.99m,
+                            PeliculaId = 1
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Actor", b =>
+                {
+                    b.OwnsOne("ApiPeliculasEFCore.Entidades.Direccion", "BillingAddress", b1 =>
+                        {
+                            b1.Property<int>("ActorId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Calle")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("barrio")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("casa")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ActorId");
+
+                            b1.ToTable("Actores");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ActorId");
+                        });
+
+                    b.OwnsOne("ApiPeliculasEFCore.Entidades.Direccion", "DireccionHogar", b1 =>
+                        {
+                            b1.Property<int>("ActorId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Calle")
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Calle");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("barrio")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Barrio");
+
+                            b1.Property<string>("casa")
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Casa");
+
+                            b1.HasKey("ActorId");
+
+                            b1.ToTable("Actores");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ActorId");
+                        });
+
+                    b.Navigation("BillingAddress");
+
+                    b.Navigation("DireccionHogar");
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Cine", b =>
+                {
+                    b.OwnsOne("ApiPeliculasEFCore.Entidades.Direccion", "Direccion", b1 =>
+                        {
+                            b1.Property<int>("CineId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Calle")
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Calle");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("barrio")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("barrio");
+
+                            b1.Property<string>("casa")
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("casa");
+
+                            b1.HasKey("CineId");
+
+                            b1.ToTable("Cines");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CineId");
+                        });
+
+                    b.Navigation("Direccion");
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.CineDetalle", b =>
+                {
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Cine", "Cine")
+                        .WithOne("CineDetalle")
+                        .HasForeignKey("ApiPeliculasEFCore.Entidades.CineDetalle", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cine");
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.CineOferta", b =>
                 {
                     b.HasOne("ApiPeliculasEFCore.Entidades.Cine", null)
@@ -837,6 +1116,24 @@ namespace ApiPeliculasEFCore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Mercancias", b =>
+                {
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Producto", null)
+                        .WithOne()
+                        .HasForeignKey("ApiPeliculasEFCore.Entidades.Mercancias", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.PeliculaAlquilable", b =>
+                {
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Producto", null)
+                        .WithOne()
+                        .HasForeignKey("ApiPeliculasEFCore.Entidades.PeliculaAlquilable", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Actor", b =>
                 {
                     b.Navigation("PeliculaActores");
@@ -844,6 +1141,8 @@ namespace ApiPeliculasEFCore.Migrations
 
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Cine", b =>
                 {
+                    b.Navigation("CineDetalle");
+
                     b.Navigation("CineOferta");
 
                     b.Navigation("SalaDeCines");

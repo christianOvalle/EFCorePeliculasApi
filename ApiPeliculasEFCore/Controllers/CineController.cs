@@ -29,6 +29,17 @@ namespace ApiPeliculasEFCore.Controllers
             return await context.Cines.ProjectTo<CineDTOs>(mapper.ConfigurationProvider).ToListAsync();
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CineDTOs>> Get(int id)
+        {
+            var cine = await context.Cines.FirstOrDefaultAsync(x => x.Id == id);
+
+            return mapper.Map<CineDTOs>(cine);
+        }
+
+
+
+
         [HttpGet("SinUbicacion")]
         public async Task<IEnumerable<CineSinUbicacion>> GetCineSinUbicacion()
         {

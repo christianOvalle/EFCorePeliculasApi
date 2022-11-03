@@ -13,6 +13,15 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
 
             //builder.Ignore(e => e.Edad);
             //builder.Ignore(x => x.Direccion);
+
+            builder.OwnsOne(x => x.DireccionHogar, dir =>
+            {
+                dir.Property(c => c.Calle).HasColumnName("Calle");
+                dir.Property(c => c.casa).HasColumnName("Casa");
+                dir.Property(c => c.barrio).HasColumnName("Barrio");
+
+            });
+           
         }
     }
 }

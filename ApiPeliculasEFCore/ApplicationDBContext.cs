@@ -16,8 +16,7 @@ namespace ApiPeliculasEFCore
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Properties<DateTime>().HaveColumnType("date");
-           
-                       
+                                 
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,8 +45,31 @@ namespace ApiPeliculasEFCore
                 }
                 
             }
+            modelBuilder.Entity<Mercancias>().ToTable("Mercancias");
+            modelBuilder.Entity<PeliculaAlquilable>().ToTable("PeliculasAlquilables");
             
-          
+
+            var pelicula1 = new PeliculaAlquilable()
+            {
+                Id = 1,
+                Nombre = "Spider-Man",
+                PeliculaId = 1,
+                Precio = 5.99m
+            };
+
+            var merch1 = new Mercancias()
+            {
+                Id = 2,
+                DisponibleEnInventario = true,
+                EsRopa = true,
+                Nombre = "T-Shirt One Piece",
+                Peso = 1,
+                Volumen = 1,
+                Precio = 11
+            };
+
+            modelBuilder.Entity<Mercancias>().HasData(merch1);
+            modelBuilder.Entity<PeliculaAlquilable>().HasData(pelicula1);
 
         }
 
@@ -61,6 +83,9 @@ namespace ApiPeliculasEFCore
         public DbSet<CineSinUbicacion> CineSinUbicacion { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Mensaje> Mensajes { get; set; }
-       
+        public DbSet<CineDetalle> CineDetalle { get; set; }
+        public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+
     }
 }
