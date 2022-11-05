@@ -211,16 +211,16 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 4,
-                            FechaFin = new DateTime(2022, 11, 5, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 15m
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
-                            FechaFin = new DateTime(2022, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 10, 31, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 10m
                         });
                 });
@@ -245,6 +245,14 @@ namespace ApiPeliculasEFCore.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 

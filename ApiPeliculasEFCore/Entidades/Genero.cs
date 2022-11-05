@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiPeliculasEFCore.Entidades
 {
-    //[Table("TablaGeneos", Schema ="Peliculas")]
+    //[Table("TablaGeneros", Schema ="Peliculas")]
     //[Index(nameof(Nombre), IsUnique = true)]
-    public class Genero
+    public class Genero : EntidadAuditable
     {
         [Key]
         public int Id { get; set; }

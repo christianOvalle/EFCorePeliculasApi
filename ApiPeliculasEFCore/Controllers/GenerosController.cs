@@ -24,7 +24,11 @@ namespace ApiPeliculasEFCore.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Genero>> Get(int id)
         {
-            var generoPorId = await context.Generos.AsTracking().FirstOrDefaultAsync(x => x.Id == id);
+            //var generoPorId = await context.Generos.AsTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            //var generoPorId = await context.Generos.FromSqlRaw("SeLect * from Generos where Id = {0}", id).IgnoreQueryFilters().FirstOrDefaultAsync();
+
+            var generoPorId = await context.Generos.FromSqlInterpolated($"SeLect * from Generos where Id = {id}").IgnoreQueryFilters().FirstOrDefaultAsync();
 
             if (generoPorId is null)
             {
@@ -41,10 +45,14 @@ namespace ApiPeliculasEFCore.Controllers
             });
         }
 
+
+
         [HttpPost]
         public async Task<ActionResult> Post(Genero genero)
         {
-            context.Add(genero);
+            //context.Add(genero);
+            //context.Entry(genero).State = EntityState.Added;
+            await context.Database.ExecuteSqlInterpolatedAsync($@"Insert into Generos(Nombre) values({genero.Nombre})");
             await context.SaveChangesAsync();
             return Ok();
         }
@@ -53,6 +61,14 @@ namespace ApiPeliculasEFCore.Controllers
         public async Task<ActionResult> Post(Genero[] genero)
         {
             context.AddRange(genero);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(Genero genero)
+        {
+            context.Update(genero);
             await context.SaveChangesAsync();
             return Ok();
         }

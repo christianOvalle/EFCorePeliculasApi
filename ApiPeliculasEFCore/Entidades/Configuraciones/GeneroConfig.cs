@@ -11,7 +11,7 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
             //builder.HasKey(x => x.Identificador);
             builder.Property(x => x.Nombre).HasMaxLength(100).IsRequired();
 
-            //builder.HasQueryFilter(x => !x.EstaBorrado);
+            builder.HasQueryFilter(x => !x.EstaBorrado);
 
             builder.HasIndex(x=>x.Nombre).IsUnique().HasFilter("EstaBorrado = 'false'");
 

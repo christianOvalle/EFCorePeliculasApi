@@ -2,6 +2,7 @@
 using ApiPeliculasEFCore.Entidades.Configuraciones;
 using ApiPeliculasEFCore.Entidades.Seeding;
 using ApiPeliculasEFCore.Entidades.SinLLave;
+using ApiPeliculasEFCore.Servicios;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -9,14 +10,58 @@ namespace ApiPeliculasEFCore
 {
     public class ApplicationDBContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions options) : base(options)
+        private readonly IservicioUsuario servicioUsuario;
+
+        public ApplicationDBContext(DbContextOptions options, IservicioUsuario servicioUsuario, IEventosDbContext eventosDbContext) : base(options)
         {
+            this.servicioUsuario = servicioUsuario;
+            if(eventosDbContext is not null)
+            {
+                //ChangeTracker.Tracked += eventosDbContext.ManejarTracked;
+                //ChangeTracker.StateChanged += eventosDbContext.ManejarStateChange;
+                SavingChanges += eventosDbContext.ManejarSavingChanges;
+                SavedChanges += eventosDbContext.ManejarSavedChanges;
+                SaveChangesFailed += eventosDbContext.ManejarSaveChangesFailed;
+            }
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ProcesarSalvado();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void ProcesarSalvado()
+        {
+            foreach (var item in ChangeTracker.Entries().Where(e=>e.State == EntityState.Added && e.Entity is EntidadAuditable))
+            {
+                var entidad = item.Entity as EntidadAuditable;
+                entidad.UsuarioCreacion = servicioUsuario.ObtenerUsuarioId();
+                entidad.UsuarioModificacion = servicioUsuario.ObtenerUsuarioId();
+            }
+
+            foreach (var item in ChangeTracker.Entries().Where(e => e.State == EntityState.Added && e.Entity is EntidadAuditable))
+            {
+                var entidad = item.Entity as EntidadAuditable;
+                entidad.UsuarioCreacion = servicioUsuario.ObtenerUsuarioId();
+                item.Property(nameof(entidad.UsuarioCreacion)).IsModified = false;
+            }
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("name=DefaultConnection", opciones =>
+                {
+                    opciones.UseNetTopologySuite();
+                }).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            configurationBuilder.Properties<DateTime>().HaveColumnType("date");
-                                 
+            configurationBuilder.Properties<DateTime>().HaveColumnType("date");                              
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +76,22 @@ namespace ApiPeliculasEFCore
          
             modelBuilder.Entity<CineSinUbicacion>().HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
 
-            modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToView("PeliculasConConteos");
+            //modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToView("PeliculasConConteos");
+
+            modelBuilder.Entity<PeliculaConConteos>().ToSqlQuery(@"Select Id, Titulo,
+(Select count(*)
+from GeneroPelicula
+WHERE PeliculasId = Peliculas.Id) as CantidadGeneros,
+(Select count(distinct CineId)
+FROM PeliculaSalaDeCine
+INNER JOIN SalaDeCines
+ON SalaDeCines.Id = PeliculaSalaDeCine.SalaDeCineId
+WHERE PeliculasId = Peliculas.Id) as CantidadCines,
+(
+Select count(*)
+FROM PeliculasActores
+where PeliculaId = Peliculas.Id) as CantidadActores
+FROM Peliculas");
 
             foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes())
             {

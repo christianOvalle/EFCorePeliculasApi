@@ -1,5 +1,6 @@
 using ApiPeliculasEFCore;
 using ApiPeliculasEFCore.CompiledModels;
+using ApiPeliculasEFCore.Servicios;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<ApplicationDBContext>(opciones => {
          //opciones.UseModel(ApplicationDBContextModel.Instance);
 }
 );
+
+//builder.Services.AddDbContext<ApplicationDBContext>();
+builder.Services.AddScoped<IservicioUsuario, ServicioUsuario>();
+builder.Services.AddScoped<IEventosDbContext, EventosDbContext>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

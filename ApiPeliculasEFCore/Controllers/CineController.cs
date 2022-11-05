@@ -30,11 +30,18 @@ namespace ApiPeliculasEFCore.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<CineDTOs>> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var cine = await context.Cines.FirstOrDefaultAsync(x => x.Id == id);
+            //var cine = await context.Cines.FirstOrDefaultAsync(x => x.Id == id);
 
-            return mapper.Map<CineDTOs>(cine);
+            var cine = await context.Cines.FromSqlInterpolated($"select * from Cines where Id = {id}")
+                       .Include(x => x.SalaDeCines)
+                       .Include(x => x.CineOferta)
+                       .Include(x => x.CineDetalle)
+                       .FirstOrDefaultAsync();
+            cine.Ubicacion = null;
+
+            return Ok(cine);
         }
 
 

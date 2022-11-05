@@ -64,6 +64,9 @@ namespace ApiPeliculasEFCore.Controllers
             actor.Id = id;
 
             context.Update(actor);
+
+            //context.Entry(actor).Property(a => a.Nombre).IsModified = true;
+
             await context.SaveChangesAsync();
             return Ok();
         }
