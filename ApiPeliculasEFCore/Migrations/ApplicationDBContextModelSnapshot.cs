@@ -23,6 +23,8 @@ namespace ApiPeliculasEFCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence<int>("NumeroFactura", "factura");
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Actor", b =>
                 {
                     b.Property<int>("Id")
@@ -211,17 +213,217 @@ namespace ApiPeliculasEFCore.Migrations
                         {
                             Id = 2,
                             CineId = 4,
-                            FechaFin = new DateTime(2022, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 11, 15, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 15m
                         },
                         new
                         {
                             Id = 1,
                             CineId = 1,
-                            FechaFin = new DateTime(2022, 11, 10, 0, 0, 0, 0, DateTimeKind.Local),
-                            FechaInicio = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaFin = new DateTime(2022, 11, 22, 0, 0, 0, 0, DateTimeKind.Local),
+                            FechaInicio = new DateTime(2022, 11, 15, 0, 0, 0, 0, DateTimeKind.Local),
                             PorcentajeDescuento = 10m
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Factura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("date");
+
+                    b.Property<int>("NumeroFactura")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR factura.NumeroFactura");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Facturas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            FechaCreacion = new DateTime(2022, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NumeroFactura = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FechaCreacion = new DateTime(2022, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NumeroFactura = 0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FechaCreacion = new DateTime(2022, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NumeroFactura = 0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FechaCreacion = new DateTime(2022, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NumeroFactura = 0
+                        });
+                });
+
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.FacturaDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Producto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Total")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasComputedColumnSql("precio * Cantidad");
+
+                    b.Property<decimal>("precio")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FacturaId");
+
+                    b.ToTable("FacturaDetalles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Cantidad = 0,
+                            FacturaId = 2,
+                            Total = 0m,
+                            precio = 350.99m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cantidad = 0,
+                            FacturaId = 2,
+                            Total = 0m,
+                            precio = 10m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cantidad = 0,
+                            FacturaId = 2,
+                            Total = 0m,
+                            precio = 45.50m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Cantidad = 0,
+                            FacturaId = 3,
+                            Total = 0m,
+                            precio = 17.99m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Cantidad = 0,
+                            FacturaId = 3,
+                            Total = 0m,
+                            precio = 14m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Cantidad = 0,
+                            FacturaId = 3,
+                            Total = 0m,
+                            precio = 45m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Cantidad = 0,
+                            FacturaId = 3,
+                            Total = 0m,
+                            precio = 100m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 371m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 114.99m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 425m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 1000m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 5m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Cantidad = 0,
+                            FacturaId = 4,
+                            Total = 0m,
+                            precio = 2.99m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Cantidad = 0,
+                            FacturaId = 5,
+                            Total = 0m,
+                            precio = 50m
                         });
                 });
 
@@ -242,9 +444,20 @@ namespace ApiPeliculasEFCore.Migrations
                         .HasDefaultValueSql("GetDate()");
 
                     b.Property<string>("Nombre")
+                        .IsConcurrencyToken()
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
 
                     b.Property<string>("UsuarioCreacion")
                         .HasMaxLength(150)
@@ -260,7 +473,18 @@ namespace ApiPeliculasEFCore.Migrations
                         .IsUnique()
                         .HasFilter("EstaBorrado = 'false'");
 
-                    b.ToTable("Generos");
+                    b.ToTable("Generos", (string)null);
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                        {
+                            ttb
+                                .HasPeriodStart("PeriodStart")
+                                .HasColumnName("PeriodStart");
+                            ttb
+                                .HasPeriodEnd("PeriodEnd")
+                                .HasColumnName("PeriodEnd");
+                        }
+                    ));
 
                     b.HasData(
                         new
@@ -684,7 +908,7 @@ namespace ApiPeliculasEFCore.Migrations
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToView("PeliculasConConteos");
+                    b.ToTable((string)null);
                 });
 
             modelBuilder.Entity("GeneroPelicula", b =>
@@ -1045,6 +1269,15 @@ namespace ApiPeliculasEFCore.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ApiPeliculasEFCore.Entidades.FacturaDetalle", b =>
+                {
+                    b.HasOne("ApiPeliculasEFCore.Entidades.Factura", null)
+                        .WithMany()
+                        .HasForeignKey("FacturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ApiPeliculasEFCore.Entidades.Mensaje", b =>
                 {
                     b.HasOne("ApiPeliculasEFCore.Entidades.Persona", "Emisor")
@@ -1088,7 +1321,7 @@ namespace ApiPeliculasEFCore.Migrations
                     b.HasOne("ApiPeliculasEFCore.Entidades.Cine", "Cine")
                         .WithMany("SalaDeCines")
                         .HasForeignKey("CineId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cine");

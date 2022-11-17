@@ -14,7 +14,7 @@ namespace ApiPeliculasEFCore.Entidades
         //[MaxLength(100)]
         //[Required]
         //[Column("NombreGenero")]
-        
+        [ConcurrencyCheck]
         public string Nombre { get; set; }
         public bool EstaBorrado { get; set; }
         public HashSet<Pelicula> Peliculas { get; set; }

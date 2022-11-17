@@ -43,10 +43,17 @@ namespace ApiPeliculasEFCore.Controllers
             return peliculaDTO;
         }
 
-        [HttpGet("PeliculaConConteos")]
-        public async Task<ActionResult<IEnumerable<PeliculaConConteos>>> GetPeliculaConConteos()
+        [HttpGet("PeliculaConConteos/{id:int}")]
+        public async Task<ActionResult<PeliculaConConteos>> GetPeliculaConConteos(int id)
         {
-            return await context.Set<PeliculaConConteos>().ToListAsync();
+            var resultado = await context.PeliculaConConteos(id).FirstOrDefaultAsync();
+
+            if (resultado is null)
+            {
+                return NotFound();
+            }
+
+            return resultado;
         }
 
         [HttpGet("cargaselectiva/{id:int}")]

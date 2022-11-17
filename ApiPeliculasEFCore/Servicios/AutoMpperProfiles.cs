@@ -10,6 +10,8 @@ namespace ApiPeliculasEFCore.Servicios
     {
         public AutoMapperProfiles()
         {
+            CreateMap<GeneroActualizacionDTO, Genero>();
+
             CreateMap<Actor, ActorDTOs>();
             CreateMap<Cine, CineDTOs>()
                 .ForMember(x => x.Latitud, c => c.MapFrom(prop => prop.Ubicacion.Y))
@@ -22,7 +24,9 @@ namespace ApiPeliculasEFCore.Servicios
 
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
-            CreateMap<CineCreacionDTO, Cine>().ForMember(ent => ent.Ubicacion, dto => dto.MapFrom(campo => geometryFactory.CreatePoint(new Coordinate(campo.Longitud, campo.Latitud))));
+            CreateMap<CineCreacionDTO, Cine>()
+                .ForMember(ent => ent.SalaDeCines, opciones => opciones.Ignore())
+                .ForMember(ent => ent.Ubicacion, dto => dto.MapFrom(campo => geometryFactory.CreatePoint(new Coordinate(campo.Longitud, campo.Latitud))));
 
             CreateMap<CineOfertaCreacionDTO, CineOferta>();
             CreateMap<SalaDeCineCreacionDTO, SalaDeCine>();

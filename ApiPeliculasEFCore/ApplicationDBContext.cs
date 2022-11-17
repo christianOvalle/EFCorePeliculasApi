@@ -1,5 +1,6 @@
 ﻿using ApiPeliculasEFCore.Entidades;
 using ApiPeliculasEFCore.Entidades.Configuraciones;
+using ApiPeliculasEFCore.Entidades.Funciones;
 using ApiPeliculasEFCore.Entidades.Seeding;
 using ApiPeliculasEFCore.Entidades.SinLLave;
 using ApiPeliculasEFCore.Servicios;
@@ -71,14 +72,25 @@ namespace ApiPeliculasEFCore
            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
            SeedingConsulta.Seed(modelBuilder);
            SeedingPersonaMensaje.Seed(modelBuilder);
+            SeedingFacturas.Seed(modelBuilder);
             //modelBuilder.Ignore<Direccion>();
 
-         
+            Escalares.RegistrarFunciones(modelBuilder);
+          
             modelBuilder.Entity<CineSinUbicacion>().HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);
+
+            modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToTable(name: null);
+
+            modelBuilder.HasDbFunction(() => PeliculaConConteos(0));
+
+            modelBuilder.HasSequence<int>("NumeroFactura", "factura");
+            //.StartsAt(10_000).IncrementsBy(5);
+
+            
 
             //modelBuilder.Entity<PeliculaConConteos>().HasNoKey().ToView("PeliculasConConteos");
 
-            modelBuilder.Entity<PeliculaConConteos>().ToSqlQuery(@"Select Id, Titulo,
+           /* modelBuilder.Entity<PeliculaConConteos>().ToSqlQuery(@"Select Id, Titulo,
 (Select count(*)
 from GeneroPelicula
 WHERE PeliculasId = Peliculas.Id) as CantidadGeneros,
@@ -91,7 +103,7 @@ WHERE PeliculasId = Peliculas.Id) as CantidadCines,
 Select count(*)
 FROM PeliculasActores
 where PeliculaId = Peliculas.Id) as CantidadActores
-FROM Peliculas");
+FROM Peliculas");*/
 
             foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes())
             {
@@ -133,6 +145,17 @@ FROM Peliculas");
 
         }
 
+        [DbFunction]
+        public int FacturaDetalleSuma(int facturaId)
+        {
+            return 0;
+        }
+
+        public IQueryable<PeliculaConConteos> PeliculaConConteos(int peliculasId)
+        {
+            return FromExpression(() => PeliculaConConteos(peliculasId));
+        }
+
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Actor> Actores { get; set; }
         public DbSet<Cine> Cines { get; set; }
@@ -146,6 +169,7 @@ FROM Peliculas");
         public DbSet<CineDetalle> CineDetalle { get; set; }
         public DbSet<Pago> Pagos { get; set; }
         public DbSet<Producto> Productos { get; set; }
-
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<FacturaDetalle> FacturaDetalles { get; set; }
     }
 }

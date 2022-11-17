@@ -7,6 +7,13 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Genero> builder)
         {
+            builder.ToTable(name: "Generos", opciones =>
+            {
+                opciones.IsTemporal();
+            });
+
+            builder.Property("PeriodStart").HasColumnType("datetime2");
+            builder.Property("PeriodEnd").HasColumnType("datetime2");
 
             //builder.HasKey(x => x.Identificador);
             builder.Property(x => x.Nombre).HasMaxLength(100).IsRequired();

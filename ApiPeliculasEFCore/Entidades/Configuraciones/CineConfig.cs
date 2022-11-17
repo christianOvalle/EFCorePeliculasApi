@@ -7,11 +7,13 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Cine> builder)
         {
+            builder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangedNotifications);
+
             builder.Property(x => x.Nombre).HasMaxLength(150).IsRequired();
 
             builder.HasOne(x => x.CineOferta).WithOne().HasForeignKey<CineOferta>(x => x.CineId);
 
-            builder.HasMany(c => c.SalaDeCines).WithOne(x => x.Cine).HasForeignKey(s => s.CineId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(c => c.SalaDeCines).WithOne(x => x.Cine).HasForeignKey(s => s.CineId).OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(c => c.CineDetalle).WithOne(cd => cd.Cine).HasForeignKey<CineDetalle>(cd => cd.Id);
 

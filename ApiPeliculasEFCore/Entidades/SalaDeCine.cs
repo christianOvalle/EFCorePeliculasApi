@@ -2,7 +2,7 @@
 
 namespace ApiPeliculasEFCore.Entidades
 {
-    public class SalaDeCine
+    public class SalaDeCine : IId
     {
         public int Id { get; set; }
         public TipoSalaDeCine TipoSalaDeCine { get; set; }
