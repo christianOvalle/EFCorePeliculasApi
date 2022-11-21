@@ -69,12 +69,15 @@ namespace ApiPeliculasEFCore
         {
             base.OnModelCreating(modelBuilder);
 
-           modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-           SeedingConsulta.Seed(modelBuilder);
-           SeedingPersonaMensaje.Seed(modelBuilder);
-            SeedingFacturas.Seed(modelBuilder);
-            //modelBuilder.Ignore<Direccion>();
+            if (!Database.IsInMemory())
+            {
 
+                modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+                SeedingConsulta.Seed(modelBuilder);
+                SeedingPersonaMensaje.Seed(modelBuilder);
+                SeedingFacturas.Seed(modelBuilder);
+                //modelBuilder.Ignore<Direccion>();
+            }
             Escalares.RegistrarFunciones(modelBuilder);
           
             modelBuilder.Entity<CineSinUbicacion>().HasNoKey().ToSqlQuery("Select Id, Nombre FROM Cines").ToView(null);

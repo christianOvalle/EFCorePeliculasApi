@@ -7,6 +7,19 @@ namespace ApiPeliculasEFCore.Entidades.Configuraciones
     {
         public void Configure(EntityTypeBuilder<Factura> builder)
         {
+            builder.ToTable(name: "Facturas", opciones =>
+            {
+                opciones.IsTemporal(t =>
+                {
+                    t.HasPeriodStart("Desde");
+                    t.HasPeriodEnd("Hasta");
+                    t.UseHistoryTable(name: "FacturasHistorico");
+                });
+            });
+
+            builder.Property<DateTime>("Desde").HasColumnType("datetime2");
+            builder.Property<DateTime>("Hasta").HasColumnType("datetime2");
+
             builder.HasMany(typeof(FacturaDetalle)).WithOne();
 
             builder.Property(f => f.NumeroFactura).HasDefaultValueSql("NEXT VALUE FOR factura.NumeroFactura");

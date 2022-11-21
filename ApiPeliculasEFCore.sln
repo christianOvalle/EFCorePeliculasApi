@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPeliculasEFCore", "ApiPeliculasEFCore\ApiPeliculasEFCore.csproj", "{D96618D3-EDA0-4342-8686-D009C5F98F7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiPeliculasEFCore.Pruebas", "ApiPeliculasEFCore.Pruebas\ApiPeliculasEFCore.Pruebas.csproj", "{49EC388C-4EA6-4F66-8693-ECC01B9CB3DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D96618D3-EDA0-4342-8686-D009C5F98F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D96618D3-EDA0-4342-8686-D009C5F98F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D96618D3-EDA0-4342-8686-D009C5F98F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49EC388C-4EA6-4F66-8693-ECC01B9CB3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49EC388C-4EA6-4F66-8693-ECC01B9CB3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49EC388C-4EA6-4F66-8693-ECC01B9CB3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49EC388C-4EA6-4F66-8693-ECC01B9CB3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
